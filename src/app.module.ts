@@ -5,8 +5,8 @@ import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { UserEntity } from './user/entities/user.entity';
-import { ConfigModule } from '@nestjs/config';
 require('dotenv').config();
+
 
 @Module({
   imports: [

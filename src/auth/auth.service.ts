@@ -1,7 +1,6 @@
 import { UnauthorizedException } from '@nestjs/common';
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-// import { CreateUserDto } from '../user/dtos/CreateUser.dto';
 import { UserEntity } from '../user/entities/user.entity';
 import { UserService } from '../user/user.service';
 import { AuthLoginDto } from './dtos/authLogin.dto';
@@ -21,9 +20,7 @@ export class AuthService {
     }
 
     async validateUser(authLoginDto:AuthLoginDto):Promise<UserEntity>{
-        // const {email,password} = authLoginDto;
         const user = await this.userService.finByEmail(authLoginDto.email);
-        // console.log(user);
         if(!(await user?.validatepassword(authLoginDto.password))){
             throw new UnauthorizedException();
         }

@@ -4,15 +4,21 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dtos/CreateUser.dto';
 import { UserEntity } from './entities/user.entity';
-import * as bcrypt from 'bcrypt'
 
 @Injectable()
 export class UserService {
     constructor(@InjectRepository(UserEntity) private userRepo:Repository<UserEntity>){}
 
     async create(createUserDto:CreateUserDto):Promise<CreateUserDto>{
+        const user1 = this.userRepo.findOne({
+            where:{
+                email:createUserDto.email
+            }
+        })
+        if(user1){
+            throw new BadRequestException("User Already exists!");
+        }
         const user = this.userRepo.create(createUserDto);
-        bcrypt.hash(user.password,10);
         return this.userRepo.save(user);
     }
 

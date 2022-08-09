@@ -20,4 +20,5 @@ export class UserController {
     show(@Param('id') id:string){
         return this.userService.findById(+id);
     }
+    
 }

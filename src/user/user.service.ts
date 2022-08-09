@@ -1,13 +1,16 @@
+import { MailerService } from '@nestjs-modules/mailer';
 import { BadRequestException } from '@nestjs/common';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dtos/CreateUser.dto';
 import { UserEntity } from './entities/user.entity';
-
+// var base64 = require('base-64');
+// var utf8 = require('utf8');
 @Injectable()
 export class UserService {
-    constructor(@InjectRepository(UserEntity) private userRepo:Repository<UserEntity>){}
+    constructor(@InjectRepository(UserEntity) private userRepo:Repository<UserEntity>,
+    private mailService:MailerService){}
 
     async create(createUserDto:CreateUserDto):Promise<CreateUserDto>{
         const user1 = this.userRepo.findOne({
@@ -19,6 +22,14 @@ export class UserService {
             throw new BadRequestException("User Already exists!");
         }
         const user = this.userRepo.create(createUserDto);
+        // const bytes = utf8.encode(user.email);
+        // const enc = base64.encode(bytes);
+        // this.mailService.sendMail({
+        //     to:user.email,
+        //     from:'pawan.bansari@creolestudios.com',
+        //     subject:'Verify your E-Mail!',
+        //     text:enc,
+        // })
         return this.userRepo.save(user);
     }
 

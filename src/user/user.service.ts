@@ -69,7 +69,7 @@ export class UserService {
 
 		const mail = base64.decode(bytes);
 
-		if (mail === EmailDto.email) {
+		if (mail == EmailDto.email) {
 			const user = await this.userRepo.findOne({
 				where: { email: mail }
 			});

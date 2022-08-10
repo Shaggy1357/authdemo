@@ -1,3 +1,4 @@
+import { BadRequestException } from "@nestjs/common";
 import { UnauthorizedException } from "@nestjs/common";
 import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
@@ -14,6 +15,9 @@ export class AuthService {
 
 	async login(authLoginDto: AuthLoginDto) {
 		const user = await this.validateUser(authLoginDto);
+		if (user.isVerified == false) {
+			throw new BadRequestException("You have not verified your account!");
+		}
 		const payload = {
 			userId: user.id
 		};

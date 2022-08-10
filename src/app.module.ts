@@ -13,10 +13,10 @@ require("dotenv").config();
 	imports: [
 		MailerModule.forRoot({
 			transport: {
-				host: "smtp.sendgrid.net",
+				host: process.env.MAIL_HOST,
 				auth: {
-					user: "apikey",
-					pass: "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"
+					user: process.env.MAIL_USER,
+					pass: process.env.MAIL_PASS
 				}
 			}
 		}),
